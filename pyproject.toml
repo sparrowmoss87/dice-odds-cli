@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diceprobe"
+version = "0.1.0"
+description = "Streaming query tool for exact dice notation outcome distributions"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "sparrowmoss87" }]
+dependencies = []
+
+[project.scripts]
+diceprobe = "diceprobe.cli:main"
+
+[tool.setuptools]
+packages = ["diceprobe"]
