@@ -5,10 +5,9 @@ the exact range and average of the result, and how many distinct totals
 are possible?
 
 It's not a dice roller. It doesn't produce a random outcome — it computes
-the full outcome distribution by convolution and reports the min, max,
-and mean, so you can sanity-check things like "is `4d6-drop-lowest`
-actually a wider spread than `3d6`" without simulating millions of rolls.
-(Keep/drop modifiers aren't supported yet — see the roadmap in the repo.)
+the full outcome distribution and reports the min, max, and mean, so you
+can sanity-check things like "is `4d6kh3` actually a wider spread than
+`3d6`" without simulating millions of rolls.
 
 ## Usage
 
@@ -41,8 +40,21 @@ $ echo "not-dice" | python -m diceprobe.cli
 ## Notation
 
 - `NdM` — roll N dice with M sides each (`N` defaults to 1, so `d20` == `1d20`)
+- `NdMkhK` / `NdMklK` — roll N dice, keep the highest/lowest K
+- `NdMdhK` / `NdMdlK` — roll N dice, drop the highest/lowest K (equivalent
+  to keeping the other `N - K`)
 - Plain integers are flat modifiers
-- Terms combine with `+` and `-`: `2d6+1d4-3`
+- Terms combine with `+` and `-`: `2d6+1d4-3`, `4d6kh3+2`
+
+```
+$ echo "4d6kh3" | python -m diceprobe.cli
+4d6kh3 -> min=3 max=18 mean=12.245 outcomes=16
+```
+
+Keep/drop distributions are computed exactly, by a DP over face values
+rather than by enumerating every possible roll — enumerating `sides**count`
+rolls and sorting each one is exponential and falls over past a handful of
+dice, which matters since nothing here caps how many dice a line asks for.
 
 ## Why streaming matters here
 
