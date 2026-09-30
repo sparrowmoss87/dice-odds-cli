@@ -69,6 +69,12 @@ real work), but the size of the input stream itself is never a limit.
 
 No dependencies, no build step. Clone it and run it with Python 3.9+.
 
+## Tests
+
+```
+python -m unittest
+```
+
 ## As a library
 
 ```python
